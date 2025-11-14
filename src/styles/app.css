@@ -12,4 +12,9 @@
             background-color: #222;
             min-height: 100vh;
       }
+
+      ::selection {
+            background-color: #eee;
+            color: black;
+      }
 }

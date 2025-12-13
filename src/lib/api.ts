@@ -120,6 +120,15 @@ export const api = {
 	},
 
 	/**
+	 * Check
+	 * Request: (cookies only)
+	 * Response: HTTP Status Only (void on success) or ApiError
+	 */
+	check: async (): Promise<undefined | ApiError> => {
+		return request<undefined>('/voter/check', 'POST');
+	},
+
+	/**
 	 * Reset Vote
 	 * Request: voter_fullname (and cookies)
 	 * Response: new_token or ApiError

@@ -4,45 +4,85 @@
                   president: "Rasyad Rizky Ramadhan",
                   vice_president: "Aldi Fadlurrahmman",
                   image: "/src/assets/candidates/candidate-1.jpg",
+                  visi: "lorem ipsum dolor sit amet consectetur adipisicing elit",
+                  misi: [
+                        "lorem ipsum dolor sit amet consectetur adipisicing elit",
+                        "lorem ipsum dolor sit amet consectetur adipisicing elit",
+                        "lorem ipsum dolor sit amet consectetur adipisicing elit"
+                  ]
             },
             {
                   president: "Andrea Farras",
                   vice_president: "Ghani Ilham",
                   image: "/src/assets/candidates/candidate-2.jpg",
+                  visi: "lorem ipsum dolor sit amet consectetur adipisicing elit",
+                  misi: [
+                        "lorem ipsum dolor sit amet consectetur adipisicing elit",
+                        "lorem ipsum dolor sit amet consectetur adipisicing elit",
+                        "lorem ipsum dolor sit amet consectetur adipisicing elit"
+                  ]
             }
       ];
+
+      type CandidateState = "TIM" | "VISI" | "MISI";
+      
+      let current_candidate_state = $state<CandidateState[]>([
+            "TIM",
+            "TIM",
+            "TIM"
+      ]);
 </script>
 
-<div class="flex flex-col h-screen p-8 sm:p-18 gap-4">
+<div class="flex flex-col w-screen h-screen p-8 sm:p-18 gap-4">
       <div class="flex flex-col gap-0 w-full items-center">
             <h1 class="uppercase text-5xl font-thin italic">Use your <span class="font-bold">voice</span></h1>
             <p class="text-md font-normal">Gunakan suara-mu! Pilih yang menurut-mu terbaik!</p>
       </div>
-      <div class="w-full lg:w-fit h-max sm:h-full flex-1 relative left-1/2 -translate-x-1/2 grid grid-rows-2 sm:grid-rows-1 sm:grid-cols-2 gap-4 place-items-start sm:place-content-center">
+      <div class="w-full max-w-full h-full flex-1 relative left-1/2 -translate-x-1/2 flex flex-col md:flex-row gap-4">
             {#each candidates as candidate, index}
-                  <div class="h-[unset] lg:h-full w-full max-w-full p-6 aspect-2/3 overflow-hidden">
+                  <div class="w-full flex-1 aspect-2/3 p-6 overflow-hidden">
                         <div class="relative w-full h-full flex flex-col">
-                              <img class="absolute w-full h-full object-cover z-0 duration-100 rounded-2xl" src={candidate.image} alt={candidate.president}  />
+                              <img class="absolute w-full h-full object-cover z-0 duration-100 rounded-2xl brightness-50" src={candidate.image} alt={candidate.president}  />
                               <div class="w-full h-full p-4 z-1 flex flex-col">
                                     <div class="w-full flex flex-row justify-start">
                                           <p class="text-5xl font-thin italic z-1">#{index + 1}</p>
                                     </div>
-                                    <div class="flex-1"></div>
-                                    <div class="w-full flex flex-col justify-end">
-                                          <div>
-                                                <p class="text-md font-light">Ketua:</p>
-                                                <p class="text-3xl font-semibold">{candidate.president}</p>
-                                          </div>
-                                          <div>
-                                                <p class="text-md font-light">Wakil Ketua:</p>
-                                                <p class="text-3xl font-semibold">{candidate.vice_president}</p>
-                                          </div>
+                                    <div class="flex-1 w-full flex flex-row items-end py-4 overflow-hidden">
+                                          {#if current_candidate_state[index] == 'TIM'}
+                                                <div class="w-full flex flex-col justify-end">
+                                                      <div>
+                                                            <p class="text-md font-light">Ketua:</p>
+                                                            <p class="text-3xl font-semibold">{candidate.president}</p>
+                                                      </div>
+                                                      <div>
+                                                            <p class="text-md font-light">Wakil Ketua:</p>
+                                                            <p class="text-3xl font-semibold">{candidate.vice_president}</p>
+                                                      </div>
+                                                </div>
+                                          {:else if current_candidate_state[index] == 'VISI'}
+                                                <div class="w-full flex flex-col justify-end">
+                                                      <div>
+                                                            <p class="text-md font-light">Visi:</p>
+                                                            <p class="font-semibold wrap-break-word">{candidate.visi}</p>
+                                                      </div>
+                                                </div>
+                                          {:else if current_candidate_state[index] == 'MISI'}
+                                                <div class="w-full flex flex-col justify-end">
+                                                      <div>
+                                                            <p class="text-md font-light">Misi:</p>
+                                                            <ol class="list-decimal">
+                                                                  {#each candidate.misi as misi, index}
+                                                                        <li class="font-semibold wrap-break-word">{index + 1}. {misi}</li>
+                                                                  {/each}
+                                                            </ol>
+                                                      </div>
+                                                </div>
+                                          {/if}
                                     </div>
-                                    <div class="h-8"></div>
                                     <div class="w-full h-16 flex flex-row gap-2 p-2 items-center justify-around border border-white rounded-2xl bg-[#8a7143]">
-                                          <button class="rounded-2xl w-full h-full satisfying-button">Tim</button>
-                                          <button class="rounded-2xl w-full h-full satisfying-button">Visi</button>
-                                          <button class="rounded-2xl w-full h-full satisfying-button">Misi</button>
+                                          <button onclick={() => current_candidate_state[index] = 'TIM'} class="rounded-2xl px-8 py-2 satisfying-button {current_candidate_state[index] == 'TIM' ? 'active' : ''}">Tim</button>
+                                          <button onclick={() => current_candidate_state[index] = 'VISI'} class="rounded-2xl px-8 py-2 satisfying-button {current_candidate_state[index] == 'VISI' ? 'active' : ''}">Visi</button>
+                                          <button onclick={() => current_candidate_state[index] = 'MISI'} class="rounded-2xl px-8 py-2 satisfying-button {current_candidate_state[index] == 'MISI' ? 'active' : ''}">Misi</button>
                                     </div>
                               </div>
                         </div>

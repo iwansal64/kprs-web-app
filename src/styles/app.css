@@ -47,8 +47,14 @@
             transform: translate(-3px, 3px);
       }
 
-      .satisfying-button:active::after {
+      .satisfying-button:active::after,
+      .satisfying-button.active::after {
             box-shadow: -5px 5px 2px 0 #0005 inset;
+      }
+
+      .satisfying-button.active {
+            box-shadow: 0px 0px 2px 0 #0005;
+            transform: translate(-2px, 2px);
       }
 
       @media (max-width: 1024px) {
@@ -59,7 +65,7 @@
 
       @media (max-width: 425px) {
             html {
-                  font-size: 8px;
+                  font-size: 10px;
             }
       }
 }

@@ -107,14 +107,14 @@
                                           {:else if current_candidate_state[index] == 'VISI'}
                                                 <div class="w-full flex flex-col justify-end">
                                                       <div>
-                                                            <p class="text-md font-light">Visi:</p>
+                                                            <p class="text-4xl font-light">Visi:</p>
                                                             <p class="font-semibold wrap-break-word">{candidate.visi}</p>
                                                       </div>
                                                 </div>
                                           {:else if current_candidate_state[index] == 'MISI'}
                                                 <div class="w-full flex flex-col justify-end">
                                                       <div>
-                                                            <p class="text-md font-light">Misi:</p>
+                                                            <p class="text-4xl font-light">Misi:</p>
                                                             <ol class="list-decimal">
                                                                   {#each candidate.misi as misi, index}
                                                                         <li class="font-semibold wrap-break-word">{index + 1}. {misi}</li>
@@ -125,9 +125,9 @@
                                           {/if}
                                     </div>
                                     <div class="w-full h-16 flex flex-row gap-2 p-2 items-center justify-around border border-white rounded-2xl bg-[#8a7143]">
-                                          <button class="rounded-2xl px-8 py-2 satisfying-button {current_candidate_state[index] == 'TIM' ? 'active' : ''}" onclick={() => current_candidate_state[index] = 'TIM'}>Tim</button>
-                                          <button class="rounded-2xl px-8 py-2 satisfying-button {current_candidate_state[index] == 'VISI' ? 'active' : ''}" onclick={() => current_candidate_state[index] = 'VISI'}>Visi</button>
-                                          <button class="rounded-2xl px-8 py-2 satisfying-button {current_candidate_state[index] == 'MISI' ? 'active' : ''}" onclick={() => current_candidate_state[index] = 'MISI'}>Misi</button>
+                                          <button class="rounded-2xl w-full max-w-62 h-12 satisfying-button {current_candidate_state[index] == 'TIM' ? 'active' : ''}" onclick={() => current_candidate_state[index] = 'TIM'}>Tim</button>
+                                          <button class="rounded-2xl w-full max-w-62 h-12 satisfying-button {current_candidate_state[index] == 'VISI' ? 'active' : ''}" onclick={() => current_candidate_state[index] = 'VISI'}>Visi</button>
+                                          <button class="rounded-2xl w-full max-w-62 h-12 satisfying-button {current_candidate_state[index] == 'MISI' ? 'active' : ''}" onclick={() => current_candidate_state[index] = 'MISI'}>Misi</button>
                                     </div>
                               </div>
                         </div>

@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
-import type { DetailVoteStatsType, VoterTokenType, VoteStatsType } from "../types";
-import { api, ApiError } from "../api";
+import type { DetailVoteStatsType, NumOfVotersType, VoterTokenType, VoteStatsType } from "../types";
+import { api, ApiError, Campus } from "../api";
 import { toasts } from "./useToast";
 
 
@@ -36,8 +36,8 @@ export async function useDetailedVotesStatsEffect() {
 
 function createSimpleVotesStore() {
       const { subscribe, set, update  } = writable<VoteStatsType>({
-            "Rasyad Rizky Ramadhan": 20,
-            "Andrea Farras": 30
+            MM: {},
+            PD: {}
       });
 
       return {
@@ -65,7 +65,10 @@ export async function useSimpleVotesStatsEffect() {
 
 
 function createNumOfVotersStore() {
-      const { subscribe, set, update  } = writable<number>(0);
+      const { subscribe, set, update  } = writable<NumOfVotersType>({
+            MM: 0,
+            PD: 0
+      });
 
       return {
             subscribe,
@@ -79,7 +82,10 @@ export const useNumOfVoters = createNumOfVotersStore();
 
 
 function createVoterTokenStore() {
-      const { subscribe, set, update  } = writable<VoterTokenType>({});
+      const { subscribe, set, update  } = writable<VoterTokenType>({
+            MM: {},
+            PD: {}
+      });
 
       return {
             subscribe,
@@ -94,18 +100,27 @@ export const useVoterToken = createVoterTokenStore();
 export async function useVoterTokenEffect() {
       const result = await api.getTokens();
       if(typeof result == "object") {
-            let voter_token_result: VoterTokenType = {};
+            let voter_token_result: VoterTokenType = {
+                  MM: {},
+                  PD: {}
+            };
 
-            Object.entries(result.static_voter_data).forEach(([voter_name, voter_data]) => {
-                  voter_token_result[voter_name] = voter_data.token;
-            });
+            let num_of_voters_result: NumOfVotersType = {
+                  MM: 0,
+                  PD: 0
+            }
 
-            Object.entries(result.changed_voter_tokens).forEach(([voter_name, voter_token]) => {
-                  voter_token_result[voter_name] = voter_token;
-            });
+            Object.entries(result).forEach(([campus_name, voter_data]) => {
+                  Object.entries(voter_data).forEach(([voter_name, voter_token]) => {
+                        voter_token_result[campus_name as Campus][voter_name] = voter_token;
+                  })
+
+                  num_of_voters_result[campus_name as Campus] = Object.keys(voter_token_result[campus_name as Campus]).length;
+            })
+
             
             useVoterToken.set(voter_token_result);
-            useNumOfVoters.set(Object.keys(voter_token_result).length);
+            useNumOfVoters.set(num_of_voters_result);
       }
       else {
             toasts.showAPI(result);

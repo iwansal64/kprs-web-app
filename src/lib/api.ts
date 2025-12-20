@@ -33,9 +33,10 @@ export interface ResetVoteResponse {
 	new_token: string;
 }
 
-export interface GetTokensResponse {
-	changed_voter_tokens: Record<string, string>;
-	static_voter_data: Record<string, VoterType>;
+export type GetTokensResponse = {
+	[campus_name in Campus]: {
+		[voter_name: string]: string
+	}
 }
 
 /* -------------------------------------------------------------------------- */
